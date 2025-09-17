@@ -1,72 +1,79 @@
 # openrouter README
 
-This is the README for your extension "openrouter". After writing up a brief description, we recommend including the following sections.
+This repository contains an MVP VS Code extension that integrates the openrouter CLI into VS Code as a small command/GUI. This project is an early proof-of-concept (MVP) and is not production ready.
 
-## Features
+The extension currently exposes a single command `openrouter.helloWorld` implemented in `src/extension.ts`. The extension binary is built to `./dist/extension.js` using `esbuild`.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Integration:
 
-For example if there is an image subfolder under your extension project workspace:
+- This extension is intended to work with the openrouter CLI: https://github.com/jwill9999/openrouter-cli
+- The goal is to provide a lightweight VS Code wrapper around the `openrouter-cli` commands (MVP stage).
 
-\!\[feature X\]\(images/feature-x.png\)
+Developer quick start
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Prerequisites:
 
-## Requirements
+- Node.js (recommended 18+)
+- npm
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Build & run (local):
 
-## Extension Settings
+- Build: `npm run compile` (runs `tsc` typecheck, `eslint`, then `node esbuild.js`)
+- Watch builds: `npm run watch`
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Tests & linting
 
-For example:
+- Run tests (Jest + ts-jest):
+  - `npm test`
+  - `npm run test:watch` for watch mode
+  - `npm run test:coverage` for coverage
+- Lint:
+  - `npm run lint` (check)
+  - `npm run lint:fix` (auto-fix)
 
-This extension contributes the following settings:
+Formatting
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- Prettier is configured in `.prettierrc`.
+  - `npm run format` to auto-format all files
+  - `npm run format:check` to verify formatting (CI friendly)
 
-## Known Issues
+Makefile targets
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+This repository includes a `Makefile` with convenient aliases that call the npm scripts:
 
-## Release Notes
+- `make help` — show available make targets
+- `make test` — runs `npm run test`
+- `make test-watch` — runs `npm run test:watch`
+- `make test-coverage` — runs `npm run test:coverage`
+- `make lint` — runs `npm run lint`
+- `make build` — runs `npm run compile`
 
-Users appreciate release notes as you update your extension.
+Husky & Git hooks
 
-### 1.0.0
+- Husky is configured: hooks are in `.husky/`.
+- Pre-commit runs: `npm run lint && npm run format:check && npm test` (see `.husky/pre-commit`).
+- If hooks are not firing, ensure Git is pointed to `.husky`:
+  - `git config core.hooksPath .husky`
+  - Or run hooks manually: `npx husky run pre-commit`
 
-Initial release of ...
+Project notes
 
-### 1.0.1
+- TypeScript-first project: `src` is the root, compiled output is written to `dist`/`out`.
+- ESLint uses the flat config file `eslint.config.mjs` with `eslint-plugin-prettier` enabled.
+- Tests live in `src/test`.
 
-Fixed issue #.
+Status
 
-### 1.1.0
+- This repository is an MVP and experimental. Do not treat it as production-ready. Issues, missing tests, and rough edges are expected. Contributions should prioritize stabilizing the CLI integration and adding end-to-end tests.
 
-Added features X, Y, and Z.
+Where to look
 
----
+- Entry point: `src/extension.ts`
+- Tests: `src/test/extension.test.ts`
+- Lint config: `eslint.config.mjs`
+- Build: `esbuild.js`, `tsconfig.json`
+- Hooks: `.husky/pre-commit`
 
-## Following extension guidelines
+If you'd like, I can also add a short CONTRIBUTING.md describing the exact dev flow (run tests, lint, build, create PRs).
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
-# openrouter-vscode-ext
+LICENSE: MIT
